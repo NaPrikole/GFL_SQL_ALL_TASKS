@@ -1,0 +1,141 @@
+===============================================================================================================================================
+
+user1=> explain analyze select * from SQL_PRACTICE where id='900000';
+                                                   QUERY PLAN
+----------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=1 width=609) (actual time=412.236..433.039 rows=1 loops=1)
+   Filter: (id = 900000)
+   Rows Removed by Filter: 999999
+ Planning time: 0.076 ms
+ Execution time: 433.077 ms
+(5 rows)
+
+
+==============================================================================================================================================
+
+
+user1=> explain analyze select * from SQL_PRACTICE where name like 'tYkZHsnyatrtNyQyskdBZFGDTN5S4sNha36Kfh7fEiBdGdA3r%';
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=100 width=609) (actual time=507.827..536.668 rows=1 loops=1)
+   Filter: ((name)::text ~~ 'tYkZHsnyatrtNyQyskdBZFGDTN5S4sNha36Kfh7fEiBdGdA3r%'::text)
+   Rows Removed by Filter: 999999
+ Planning time: 0.134 ms
+ Execution time: 536.718 ms
+(5 rows)
+
+===============================================================================================================================================
+
+user1=> explain analyze select * from SQL_PRACTICE where description like 'GEn67i2DFHntGbdrAFzesREbyGKs4%';
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=100 width=609) (actual time=491.365..521.062 rows=1 loops=1)
+   Filter: ((description)::text ~~ 'GEn67i2DFHntGbdrAFzesREbyGKs4%'::text)
+   Rows Removed by Filter: 999999
+ Planning time: 0.223 ms
+ Execution time: 521.109 ms
+(5 rows)
+
+
+
+================================================================================================================================================
+================================================================================================================================================
+With index on name field.
+
+user1=> CREATE INDEX name_idx ON sql_practice (name);
+CREATE INDEX
+================================================================================================================================================
+================================================================================================================================================
+
+user1=> explain analyze select * from SQL_PRACTICE where id='900000';
+                                                   QUERY PLAN
+----------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=1 width=609) (actual time=399.068..419.433 rows=1 loops=1)
+   Filter: (id = 900000)
+   Rows Removed by Filter: 999999
+ Planning time: 0.703 ms
+ Execution time: 419.474 ms
+(5 rows)
+
+
+=================================================================================================================================================
+
+
+user1=> explain analyze select * from SQL_PRACTICE where name like 'GEn67i2DFHntGbdrAFzesREbyGKs4%';
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=100 width=609) (actual time=475.841..475.841 rows=0 loops=1)
+   Filter: ((name)::text ~~ 'GEn67i2DFHntGbdrAFzesREbyGKs4%'::text)
+   Rows Removed by Filter: 1000000
+ Planning time: 0.110 ms
+ Execution time: 475.877 ms
+(5 rows)
+
+
+=================================================================================================================================================
+
+user1=> explain analyze select * from SQL_PRACTICE where description like 'GEn67i2DFHntGbdrAFzesREbyGKs4%';
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=100 width=609) (actual time=449.734..478.259 rows=1 loops=1)
+   Filter: ((description)::text ~~ 'GEn67i2DFHntGbdrAFzesREbyGKs4%'::text)
+   Rows Removed by Filter: 999999
+ Planning time: 0.184 ms
+ Execution time: 478.298 ms
+(5 rows)
+
+
+=================================================================================================================================================
+=================================================================================================================================================
+
+With index on description field.
+
+user1=> CREATE INDEX description_idx ON sql_practice (description);
+CREATE INDEX
+
+=================================================================================================================================================
+=================================================================================================================================================
+
+
+user1=> explain analyze select * from SQL_PRACTICE where id='900000';
+                                                   QUERY PLAN
+----------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=1 width=609) (actual time=401.528..422.996 rows=1 loops=1)
+   Filter: (id = 900000)
+   Rows Removed by Filter: 999999
+ Planning time: 1.180 ms
+ Execution time: 423.036 ms
+(5 rows)
+
+
+=================================================================================================================================================
+
+
+user1=> explain analyze select * from SQL_PRACTICE where name like 'GEn67i2DFHntGbdrAFzesREbyGKs4%';
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=100 width=609) (actual time=468.113..468.113 rows=0 loops=1)
+   Filter: ((name)::text ~~ 'GEn67i2DFHntGbdrAFzesREbyGKs4%'::text)
+   Rows Removed by Filter: 1000000
+ Planning time: 0.479 ms
+ Execution time: 468.150 ms
+(5 rows)
+
+
+
+=================================================================================================================================================
+
+user1=> explain analyze select * from SQL_PRACTICE where description like 'GEn67i2DFHntGbdrAFzesREbyGKs4%';
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Seq Scan on sql_practice  (cost=0.00..95834.00 rows=100 width=609) (actual time=451.821..480.386 rows=1 loops=1)
+   Filter: ((description)::text ~~ 'GEn67i2DFHntGbdrAFzesREbyGKs4%'::text)
+   Rows Removed by Filter: 999999
+ Planning time: 0.192 ms
+ Execution time: 480.455 ms
+(5 rows)
+=================================================================================================================================================
+
+
+
+
